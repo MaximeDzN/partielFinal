@@ -15,9 +15,8 @@ import java.util.Map;
 public class JwtUtil {
     Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
-    @Value("${secret.token}")
-    private static final String SECRET = "";
-    private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET);
+    @Value("${token.secret}")
+    private String secret = "";
 
 
     public Map<String, Claim> getClaims(String token){
@@ -27,7 +26,7 @@ public class JwtUtil {
 
     public Boolean validateToken(String token){
         try {
-            JWT.require(ALGORITHM).build().verify(token);
+            JWT.require(Algorithm.HMAC256(secret)).build().verify(token);
             return true;
         } catch (JWTVerificationException j) {
             logger.error(j.getMessage());

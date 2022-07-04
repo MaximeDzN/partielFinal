@@ -23,13 +23,12 @@ public class JwtUtil {
 
     //minutes to milliseconds
     private static final int EXPIRATION_TIME = 60 * 60 * 1000;
-    @Value("${secret.token}")
-    private static final String SECRET = "";
-    private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET);
+    @Value("${token.secret}")
+    private String secret = "";
 
     public Boolean validateToken(String token){
         try {
-            JWT.require(ALGORITHM).build().verify(token);
+            JWT.require(Algorithm.HMAC256(secret)).build().verify(token);
             return true;
         } catch (JWTVerificationException j) {
             logger.error(j.getMessage());
@@ -43,12 +42,13 @@ public class JwtUtil {
 
     public String generateToken(Authentication authentication){
         User user = (User)authentication.getPrincipal();
+        System.out.println(secret);
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis()+EXPIRATION_TIME))
                 .withClaim("roles", String.valueOf(user.getAuthorities()))
-                .sign(ALGORITHM);
+                .sign(Algorithm.HMAC256(secret));
 
     }
 
