@@ -1,9 +1,11 @@
 package eu.ensup.school.service;
 
 import eu.ensup.school.domain.Course;
+import eu.ensup.school.domain.Student;
 import eu.ensup.school.exception.AssociationException;
 import eu.ensup.school.repository.CourseRepository;
 import eu.ensup.school.repository.StudentRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,12 +36,26 @@ class CourseServiceTest {
     @Test
     @DisplayName("associateStudentCourse__success")
     void associateStudentCourse__success() throws AssociationException {
-        /*
-        Long courseId = 8L;
+
+        Long studentId = 8L;
+        Long courseId = 1L;
         Date date = new Date();
-        Course course = new Course(courseId,date,date,"Math",150, new ArrayList<>());
-        when(courseRepository.save(course)).thenReturn(
-        courseService.associateStudentCourse(1L,8L);
-        verify(courseRepository).save(course);*/
+        Optional<Course> optionalCourse = Optional.of(new Course(courseId,date,date,"Math",150, new ArrayList<>()));
+        Optional<Student> optionalStudent = Optional.of(new Student(studentId,date,date,"flavien"));
+        Course expectedCourse = optionalCourse.get();
+        expectedCourse.getStudents().add(optionalStudent.get());
+        when(studentRepository.findById(studentId)).thenReturn(optionalStudent);
+        when(courseRepository.findById(courseId)).thenReturn(optionalCourse);
+        courseService.associateStudentCourse(studentId,courseId);
+        verify(courseRepository,times(1)).save(optionalCourse.get());
+    }
+
+    @Test
+    @DisplayName("associateStudentCourse__success")
+    void AssociationException(){
+        AssociationException thrown = Assertions.assertThrows(AssociationException.class, () -> {
+            courseService.associateStudentCourse(1L,8L);
+        });
+        Assertions.assertEquals("Could not associate student: 1 and course: 8",thrown.getMessage());
     }
 }

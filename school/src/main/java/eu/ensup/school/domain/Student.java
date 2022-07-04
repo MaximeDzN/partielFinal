@@ -16,6 +16,11 @@ import java.util.List;
 @ToString
 public class Student extends GenericEntity{
 
+    public Student(Long id, Date createdAt, Date updatedAt, String firstName){
+        super(id,createdAt,updatedAt);
+        this.firstName = firstName;
+    }
+
     String firstName;
     String lastName;
     @DateTimeFormat(pattern="dd/MM/yyyy")
