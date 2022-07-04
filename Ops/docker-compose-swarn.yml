@@ -9,12 +9,36 @@ services:
     command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar msUser.jar"
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
       placement:
         constraints:
           - node.role == worker
     ports:
       - 8083:8083
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registration:8761/eureka
+      - WAIT_HOSTS=registration:8761
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+    networks:
+      - app-network
+  school:
+    image: flav1ann/school:latest
+    hostname: school
+    depends_on:
+      - registration
+      - docker-mysql
+    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar msSchool.jar"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    ports:
+      - 8084:8084
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registration:8761/eureka
