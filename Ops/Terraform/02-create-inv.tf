@@ -39,7 +39,7 @@ resource "null_resource" "ansible-provision" {
       "sudo apt update -y",
       "docker run -it -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer",
       "git clone https://github.com/MaximeDzN/partielFinal",
-      "cd partielFinal/",
+      "cd partielFinal/Ops/",
       "sudo docker stack deploy -c docker-compose-swarn.yml my_app",
     ]
   }
