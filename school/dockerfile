@@ -7,7 +7,7 @@ RUN ls
 RUN ls ./target
 
 FROM adoptopenjdk/openjdk11:alpine-jre
-COPY --from=build /msUser/target/*.jar /jar-files/msSchool.jar
+COPY --from=build /msSchool/target/*.jar /jar-files/msSchool.jar
 WORKDIR /jar-files
 ENV WAIT_VERSION 2.7.2
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
