@@ -76,6 +76,12 @@
             <artifactId>java-jwt</artifactId>
             <version>3.19.2</version>
         </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.1.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -108,7 +114,37 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <reuseForks>false</reuseForks>
+                    <skipTests>true</skipTests>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>unit-tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>src/test/eu/ensup/user/repository/*.java</include>
+                                <include>src/test/eu/ensup/user/service/*.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>src/test/eu/ensup/user/integrationtest/*.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
