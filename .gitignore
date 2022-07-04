@@ -1,0 +1,6 @@
+*/.mvn/
+*/mvnw*
+*/*.iml
+*/target/
+/*.zip
+/.idea/
