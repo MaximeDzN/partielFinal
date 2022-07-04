@@ -1,12 +1,15 @@
 package eu.ensup.gateway.filter;
 
 import eu.ensup.gateway.security.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -15,11 +18,14 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Component
-public class JwtAuthFilter implements GatewayFilter {
+@Order(-1)
+public class GlobalFilterConfig implements GlobalFilter {
+
+    final Logger logger = LoggerFactory.getLogger(GlobalFilterConfig.class);
 
     private JwtUtil jwtUtil;
 
-    public JwtAuthFilter(JwtUtil jwtUtil) {
+    public GlobalFilterConfig(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
@@ -31,6 +37,7 @@ public class JwtAuthFilter implements GatewayFilter {
         Predicate<ServerHttpRequest> isApiSecured = r -> openEndpoints.stream().noneMatch(uri -> r.getURI().getPath().contains(uri));
         if(isApiSecured.test(request)){
             if(!request.getHeaders().containsKey("Authorization")){
+                logger.info("Not authorized");
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
@@ -38,12 +45,14 @@ public class JwtAuthFilter implements GatewayFilter {
         if(!request.getHeaders().getOrEmpty("Authorization").isEmpty()){
             final String token = getJwtFromRequest(request);
             if(!jwtUtil.validateToken(token)){
+                logger.info("Invalid token");
                 response.setStatusCode(HttpStatus.BAD_REQUEST);
                 return response.setComplete();
             }
         }
         return chain.filter(exchange);
     }
+
 
     private String getJwtFromRequest(ServerHttpRequest request) {
         String namespace = "Bearer ";
@@ -53,5 +62,4 @@ public class JwtAuthFilter implements GatewayFilter {
         }
         return authHeader;
     }
-
 }
