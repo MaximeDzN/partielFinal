@@ -48,10 +48,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-vault-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 		</dependency>
 		<dependency>
@@ -70,6 +66,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>0.15</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.6</version>
@@ -78,12 +79,6 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-data-rest</artifactId>
 			<version>1.6.6</version>
-		</dependency>
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<version>5.1.1</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -148,7 +143,44 @@
 					</execution>
 				</executions>
             </plugin>
-		</plugins>
-	</build>
-
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<excludes>
+						<exclude>eu/ensup/school/domain/**</exclude>
+						<exclude>eu/ensup/school/controller/**</exclude>
+						<exclude>eu/ensup/school/SchoolApplication.class</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+        </plugins>
+    </build>
+    <distributionManagement>
+        <repository>
+            <id>my-maven-repo</id>
+            <name>Internal Releases</name>
+            <url>http://51.91.125.163:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>my-maven-repo</id>
+            <name>Internal snapshot</name>
+            <url>http://51.91.125.163:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

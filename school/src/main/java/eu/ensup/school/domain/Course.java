@@ -1,16 +1,11 @@
 package eu.ensup.school.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,12 +13,25 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Course extends GenericEntity{
 
     String theme;
     int hours;
 
-    @ManyToMany
+    Course(Long id, Date createdAt, Date updatedAt,String theme, int hours){
+        super(id,createdAt,updatedAt);
+        this.theme = theme;
+        this.hours = hours;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "course_student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> students = new ArrayList<>();
 
+    public <E> Course(long l, Date date, Date date1, String math, int i, ArrayList<E> es) {
+    }
 }

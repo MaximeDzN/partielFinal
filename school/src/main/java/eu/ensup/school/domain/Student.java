@@ -1,9 +1,6 @@
 package eu.ensup.school.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,7 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Student extends GenericEntity{
+
+    public Student(Long id, Date createdAt, Date updatedAt, String firstName){
+        super(id,createdAt,updatedAt);
+        this.firstName = firstName;
+    }
 
     String firstName;
     String lastName;
@@ -26,7 +29,7 @@ public class Student extends GenericEntity{
     String phoneNumber;
     String address;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
     List<Course> courses = new ArrayList<>();
 
 }
