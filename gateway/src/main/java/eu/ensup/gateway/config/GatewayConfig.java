@@ -19,8 +19,10 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder){
         return builder.routes()
-                .route("firstService",r -> r.path("/fs/**").filters(f -> f.filter(jwtAuthFilter)).uri("lb://ARTIST-SERVICE"))
-                .route("authId",r -> r.path("/secure/**").filters(f -> f.filter(jwtAuthFilter)).uri("lb://AUTH-SERVICE"))
+                //.route("schoolId",r -> r.path("/school/**").filters(f -> f.filter(jwtAuthFilter)).uri("lb://SCHOOL-SERVICE"))
+                //.route("authId",r -> r.path("/secure/**").filters(f -> f.filter(jwtAuthFilter)).uri("lb://AUTH-SERVICE"))
+                .route("schoolId",r -> r.path("/school/**").uri("lb://SCHOOL-SERVICE"))
+                .route("authId",r -> r.path("/secure/**").uri("lb://AUTH-SERVICE"))
                 .build();
     }
 }
