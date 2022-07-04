@@ -15,9 +15,8 @@ import java.util.Map;
 public class JwtUtil {
     Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
-    @Value("${token.secret}")
+    @Value("${token}")
     private String secret = "";
-
 
     public Map<String, Claim> getClaims(String token){
         return JWT.decode(token).getClaims();
