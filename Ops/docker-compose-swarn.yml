@@ -123,12 +123,13 @@ services:
       - app-network
   docker-mysql:
     image: mysql:8.0
-    container_name: docker-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: school
+      MYSQL_DATABASE: user
       MYSQL_USER: root
       MYSQL_PASSWORD: root
+    volumes:
+      - ./init:/docker-entrypoint-initde.
     ports:
       - "3306:3306"
     networks:
