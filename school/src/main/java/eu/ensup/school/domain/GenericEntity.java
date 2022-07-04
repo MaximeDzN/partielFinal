@@ -16,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenericEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
