@@ -1,10 +1,14 @@
 package eu.ensup.user.integrationtest;
 
 import eu.ensup.user.controller.AuthController;
+import eu.ensup.user.domain.User;
+import eu.ensup.user.domain.enums.Role;
 import eu.ensup.user.dto.SigninRequest;
 import eu.ensup.user.repository.UserRepository;
 import eu.ensup.user.security.JwtUtil;
 import eu.ensup.user.service.AuthService;
+import eu.ensup.user.service.UserService;
+import eu.ensup.user.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,26 +27,22 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.inject.Inject;
 
+import java.sql.Date;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = {AuthController.class, AuthService.class})
+@WebMvcTest(controllers = {AuthController.class})
 public class AuthControllerSIT
 {
     @Inject
     private MockMvc mockMvc;
 
     @MockBean
-    private UserRepository userRepository;
-    @MockBean
-    private PasswordEncoder passwordEncoder;
-    @MockBean
-    private AuthenticationManager authenticationManager;
-    @MockBean
-    private JwtUtil jwtUtil;
+    private AuthService authService;
 
     @Autowired
     private AuthController authController;
@@ -51,12 +51,9 @@ public class AuthControllerSIT
     public void testSignIn() throws Exception {
         // GIVEN
         SigninRequest signinRequest = new SigninRequest("user","password");
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(signinRequest.getUsername(),signinRequest.getPassword());
-        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        String token = jwtUtil.generateToken(authentication);
+        String token = "token";
 
-        when(authenticationManager.authenticate(usernamePasswordAuthenticationToken)).thenReturn(authentication);
-        when(jwtUtil.generateToken(authentication)).thenReturn(token);
+        when(authService.signin(signinRequest)).thenReturn(token);
 
         // WHEN
         final MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/auth/signin")
@@ -69,8 +66,7 @@ public class AuthControllerSIT
         // THEN
         assertThat(result.getResponse().getContentAsString(), equalTo(token));
 
-        verify(authenticationManager).authenticate(usernamePasswordAuthenticationToken);
-        verify(jwtUtil).generateToken(authentication);
+        verify(authService).signin(signinRequest);
     }
 
     /*@Test
