@@ -14,16 +14,20 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Course extends GenericEntity{
+public class Course {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private Long id;
     String theme;
     int hours;
 
-    Course(Long id, Date createdAt, Date updatedAt,String theme, int hours){
-        super(id,createdAt,updatedAt);
-        this.theme = theme;
-        this.hours = hours;
-    }
+//    Course(Long id, Date createdAt, Date updatedAt,String theme, int hours){
+//        super(id,createdAt,updatedAt);
+//        this.theme = theme;
+//        this.hours = hours;
+//    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

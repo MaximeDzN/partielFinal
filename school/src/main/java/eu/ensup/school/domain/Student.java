@@ -14,12 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Student extends GenericEntity{
+public class Student {
 
-    public Student(Long id, Date createdAt, Date updatedAt, String firstName){
-        super(id,createdAt,updatedAt);
-        this.firstName = firstName;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private Long id;
+//    public Student(Long id, Date createdAt, Date updatedAt, String firstName){
+//        super(id,createdAt,updatedAt);
+//        this.firstName = firstName;
+//    }
 
     String firstName;
     String lastName;
