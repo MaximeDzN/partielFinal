@@ -16,6 +16,7 @@ services:
     ports:
       - 8083:8083
     environment:
+      - SPRING_PROFILES_ACTIVE=prod
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registration:8761/eureka
       - WAIT_HOSTS=registration:8761
       - WAIT_HOSTS_TIMEOUT=300
@@ -46,6 +47,7 @@ services:
     ports:
       - 8099:8099
     environment:
+      - SPRING_PROFILES_ACTIVE=prod
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registration:8761/eureka
       - WAIT_HOSTS=registration:8761
       - WAIT_HOSTS_TIMEOUT=300
@@ -65,6 +67,7 @@ services:
     ports:
       - 8761:8761
     environment:
+      - SPRING_PROFILES_ACTIVE=prod
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registration:8761/eureka
       - WAIT_HOSTS_TIMEOUT=300
       - WAIT_SLEEP_INTERVAL=30

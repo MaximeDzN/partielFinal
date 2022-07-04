@@ -82,7 +82,7 @@ resource "aws_security_group" "swarm_sg" {
     ipv6_cidr_blocks = ["::/0"]
   }
   ingress {
-    description      = "Port compte"
+    description      = "Port user"
     from_port        = 8083
     to_port          = 8083
     protocol         = "tcp"
