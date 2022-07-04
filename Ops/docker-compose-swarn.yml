@@ -16,6 +16,7 @@ services:
     ports:
       - 8083:8083
     environment:
+      - secret_token=hvs.fQCDPLZuAGIfuxGFb2xbxSaU
       - SPRING_PROFILES_ACTIVE=prod
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registration:8761/eureka
       - WAIT_HOSTS=registration:8761
@@ -56,6 +57,7 @@ services:
           - node.role == worker
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - secret_token=hvs.fQCDPLZuAGIfuxGFb2xbxSaU
     ports:
       - 8888:8888
     networks:
@@ -73,6 +75,7 @@ services:
     ports:
       - 8099:8099
     environment:
+      - secret_token=hvs.fQCDPLZuAGIfuxGFb2xbxSaU
       - SPRING_PROFILES_ACTIVE=prod
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registration:8761/eureka
       - WAIT_HOSTS=registration:8761
@@ -82,7 +85,7 @@ services:
     networks:
       - app-network
   registration:
-    image: flav1ann/msregistery:latest
+    image: flav1ann/msregistry:latest
     depends_on:
       - configuration
     command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar MsRegistry.jar"
@@ -123,9 +126,9 @@ services:
     container_name: docker-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: myresto
-      MYSQL_USER: spring
-      MYSQL_PASSWORD: spring
+      MYSQL_DATABASE: school
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     networks:
