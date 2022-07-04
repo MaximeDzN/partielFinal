@@ -105,6 +105,14 @@ resource "aws_security_group" "swarm_sg" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
+  ingress {
+    description      = "Port mysql"
+    from_port        = 3306
+    to_port          = 3306
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
   tags = {
     Name = "swarm_sg"
   }
