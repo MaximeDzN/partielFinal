@@ -85,7 +85,7 @@ services:
     networks:
       - app-network
   registration:
-    image: flav1ann/msregistery:latest
+    image: flav1ann/msregistry:latest
     depends_on:
       - configuration
     command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar MsRegistry.jar"
