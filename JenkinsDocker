@@ -1,0 +1,127 @@
+pipeline {
+    agent any
+
+     environment {
+        String branchName = "main"
+
+        String repoUrl = "https://github.com/MaximeDzN/partielFinal"
+
+        registryCredential = 'dockerhub'
+
+        registryeGateway = "flav1ann/msgateway"
+        registryConfig = "flav1ann/msconfig"
+        registryRegistry = "flav1ann/msregistry"
+        registryUser = "flav1ann/msuser"
+        registrySchool = "flav1ann/msschool"
+
+        dockerImageGateway = ''
+        dockerImageConfig = ''
+        dockerImageRegistry = ''
+        dockerImageUser = ''
+        dockerImageSchool = ''
+
+    }
+    /*
+    triggers {
+        pollSCM '* * * * *'
+    }*/
+    stages {
+
+        stage('Checkout') {
+            steps {
+                script {
+                    sh("pwd")
+                    sh("ls -ahl")
+                    echo 'Cloning files from (branch: "' + branchName + '" )'
+                    echo 'Start cloning the github repository from (branch: "' + branchName + ' ") .....'
+                    // The below will clone your repo and will be checked out to master branch by default.
+                    git branch: branchName, url: repoUrl
+                    sh("ls -ahl")
+                    echo 'repository clone on branch master done.'
+                }
+            }
+        }
+        stage('Compile') {
+              agent {
+                docker {
+                    image 'maven:3.8.4-openjdk-11-slim'
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                     dir("gateway") {
+                        sh "mvn compile"
+                     }
+                     dir("config") {
+                        sh "mvn compile"
+                     }
+                     dir("discovery") {
+                        sh "mvn compile"
+                     }
+                     dir("user") {
+                        sh "mvn compile"
+                     }
+                     dir("school") {
+                        sh "mvn compile"
+                     }
+                }
+            }
+        }
+
+        stage('Docker image build') {
+                steps {
+                    script {
+                        echo 'Start building docker image of the application ......'
+                         dir("gateway") {
+                            dockerImageGateway = docker.build registryeGateway + ":latest"
+                         }
+                         dir("config") {
+                            dockerImageConfig = docker.build registryConfig + ":latest"
+                         }
+                         dir("discovery") {
+                            dockerImageRegistry = docker.build registryRegistry + ":latest"
+                         }
+                         dir("user") {
+                            dockerImageUser = docker.build registryUser + ":latest"
+                         }
+                          dir("school") {
+                            dockerImageSchool = docker.build registrySchool + ":latest"
+                          }
+                        echo 'Docker image build done.'
+                    }
+                }
+            }
+
+        stage('Docker image push on docker hub') {
+            steps {
+                script {
+                    echo 'Pushing the docker image application builded to docker hub.'
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImageGateway.push()
+                        dockerImageConfig.push()
+                        dockerImageRegistry.push()
+                        dockerImageUser.push()
+                        dockerImageSchool.push()
+                    }
+                    echo 'Docker image build done.'
+                }
+
+            }
+        }
+
+    }
+
+    post {
+    failure {
+        echo 'J\'aime le paté !'
+        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "jon.jolate@gmail.com", sendToIndividuals: true])
+    }
+    aborted {
+        echo 'J\'aime le paté !'
+    }
+    success{
+        echo 'J\'aime le paté !'
+    }
+}
+}

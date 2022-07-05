@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: configserver:http://configuration:8888
   application:
     name: gateway-service
   cloud:
@@ -22,8 +24,6 @@ spring:
             allowedMethods: '*'
             allowedOrigins: '*'
             allowedHeaders: '*'
-  config:
-    import: optional:configserver:http://localhost:8888
 management:
   endpoints:
     web:
@@ -32,4 +32,9 @@ management:
         allowed-origins: '*'
         allowed-methods: '*'
         allowed-origin-patterns: '*'
+
+server:
+  port: '8099'
+token:
+  secret: hvs.fQCDPLZuAGIfuxGFb2xbxSaU
 
