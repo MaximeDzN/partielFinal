@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: configserver:http://configuration:8888
   application:
     name: gateway-service
   cloud:
@@ -12,7 +14,8 @@ spring:
         backend: secret
         profile-separator: '/'
         default-context: 'partielfinal'
-  config:
-    import: optional:configserver:http://localhost:8888
-
+server:
+  port: '8099'
+token:
+  secret: hvs.fQCDPLZuAGIfuxGFb2xbxSaU
 

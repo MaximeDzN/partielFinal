@@ -1,6 +1,7 @@
+server:
+  port: '8083'
+
 spring:
-  config:
-    import: configserver:http://configuration:8888
   jpa:
     properties:
       hibernate:
@@ -17,6 +18,8 @@ spring:
       url: jdbc:mysql://docker-mysql:3306/user?serverTimezone=UTC
     jmx:
       unique-names: 'true'
+  config:
+    import: configserver:http://configuration:8888
   application:
     name: user-service
   cloud:
@@ -47,6 +50,3 @@ management:
     jmx:
       exposure:
         exclude: '*'
-
-token:
-  secret: hvs.fQCDPLZuAGIfuxGFb2xbxSaU
