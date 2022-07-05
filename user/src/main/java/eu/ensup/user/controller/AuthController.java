@@ -2,6 +2,7 @@ package eu.ensup.user.controller;
 
 import eu.ensup.user.dto.SigninRequest;
 import eu.ensup.user.dto.SignupRequest;
+import eu.ensup.user.dto.TokenResponse;
 import eu.ensup.user.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signin(@RequestBody SigninRequest signinRequest) {
+    public ResponseEntity<TokenResponse> signin(@RequestBody SigninRequest signinRequest) {
         return new ResponseEntity<>(authService.signin(signinRequest), HttpStatus.OK);
     }
 

@@ -35,6 +35,7 @@ public class StudentController {
     @GetMapping("/count/studentsInCourse/{courseId}")
     public ResponseEntity<Long> studentWithoutCourse(@PathVariable long courseId){
         try {
+            System.out.println("test");
             return new ResponseEntity<>(studentService.countStudentsByCourse(courseId),HttpStatus.OK);
         } catch (CourseNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

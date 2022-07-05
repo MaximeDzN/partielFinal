@@ -14,5 +14,3 @@ spring:
         default-context: 'partielfinal'
   config:
     import: optional:configserver:http://localhost:8888
-
-

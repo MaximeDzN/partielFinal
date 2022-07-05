@@ -57,4 +57,25 @@ class CourseServiceTest {
         });
         Assertions.assertEquals("Could not associate student: 1 and course: 8",thrown.getMessage());
     }
+
+
+    @Test
+    @DisplayName("countCourses__success")
+    void countCourses(){
+        long expectedResult = 6L;
+        when(courseRepository.count()).thenReturn(6L);
+        long result = courseService.countCourses();
+        assertEquals(expectedResult,result);
+        verify(courseRepository,times(1)).count();
+    }
+
+    @Test
+    @DisplayName("countCoursesWithoutStudent__success")
+    void countCoursesWithoutStudent(){
+        long expectedResult = 6L;
+        when(courseRepository.countCourseByStudentsIsNull()).thenReturn(6L);
+        long result = courseService.countCourseWithoutStudents();
+        assertEquals(expectedResult,result);
+        verify(courseRepository,times(1)).countCourseByStudentsIsNull();
+    }
 }
