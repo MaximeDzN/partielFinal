@@ -104,7 +104,7 @@ services:
     networks:
       - app-network
   angular:
-    image: flav1ann/angular_compte:latest
+    image: flav1ann/angulargestion:latest
     depends_on:
       - registration
     command: sh -c "/wait && nginx -g 'daemon off;'"
