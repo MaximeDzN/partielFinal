@@ -35,4 +35,15 @@ public class CourseServiceImpl implements CourseService {
       course.getStudents().add(student);
       courseRepository.save(course);
     }
+
+    //STATS
+    @Override
+    public long countCourses(){
+        return courseRepository.count();
+    }
+
+    @Override
+    public long countCourseWithoutStudents() {
+        return courseRepository.countCourseByStudentsIsNull();
+    }
 }
