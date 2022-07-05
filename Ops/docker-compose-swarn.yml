@@ -128,7 +128,7 @@ services:
       MYSQL_DATABASE: user
       MYSQL_USER: user
       MYSQL_PASSWORD: root
-     entrypoint:
+    entrypoint:
       sh -c "
       echo 'CREATE DATABASE IF NOT EXISTS school; ' > /docker-entrypoint-initdb.d/init.sql;
       /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
