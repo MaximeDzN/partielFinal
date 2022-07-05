@@ -6,7 +6,7 @@ services:
     depends_on:
       - registration
       - docker-mysql
-    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar msUser.jar"
+    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar -Dspring.profiles.active=prod msUser.jar"
     deploy:
       mode: replicated
       replicas: 1
@@ -31,7 +31,7 @@ services:
     depends_on:
       - registration
       - docker-mysql
-    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar msSchool.jar"
+    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar -Dspring.profiles.active=prod msSchool.jar"
     deploy:
       mode: replicated
       replicas: 1
@@ -67,7 +67,7 @@ services:
     hostname: gateway
     depends_on:
       - registration
-    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar msGateway.jar"
+    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar -Dspring.profiles.active=prod msGateway.jar"
     deploy:
       placement:
         constraints:
@@ -88,7 +88,7 @@ services:
     image: flav1ann/msregistry:latest
     depends_on:
       - configuration
-    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar MsRegistry.jar"
+    command: sh -c "/wait && java -server -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -jar -Dspring.profiles.active=prod MsRegistry.jar"
     deploy:
       placement:
         constraints:
