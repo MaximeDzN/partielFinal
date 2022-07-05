@@ -1,6 +1,5 @@
 package eu.ensup.school.integrationtest;
 
-import eu.ensup.school.SchoolApplicationTest;
 import eu.ensup.school.controller.CourseController;
 import eu.ensup.school.service.CourseServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CourseController.class)
 @ContextConfiguration(classes = SchoolApplicationTest.class)
-public class CourseIntegrationTest
+public class CourseControllerSIT
 {
     @Autowired
     private MockMvc mockMvc;

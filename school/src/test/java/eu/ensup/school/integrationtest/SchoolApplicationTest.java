@@ -1,4 +1,4 @@
-package eu.ensup.school;
+package eu.ensup.school.integrationtest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
