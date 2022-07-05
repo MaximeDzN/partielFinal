@@ -3,6 +3,7 @@ package eu.ensup.user.service;
 import eu.ensup.user.domain.User;
 import eu.ensup.user.dto.SigninRequest;
 import eu.ensup.user.dto.SignupRequest;
+import eu.ensup.user.dto.TokenResponse;
 import eu.ensup.user.repository.UserRepository;
 import eu.ensup.user.security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
-    private JwtUtil jwtUtil;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
@@ -28,10 +29,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String signin(SigninRequest signinRequest) {
+    public TokenResponse signin(SigninRequest signinRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getUsername(),signinRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtUtil.generateToken(authentication);
+        return TokenResponse.builder().token(jwtUtil.generateToken(authentication)).build();
     }
 
     @Override

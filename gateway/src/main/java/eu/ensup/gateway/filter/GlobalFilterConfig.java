@@ -15,6 +15,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 @Component
@@ -50,6 +51,7 @@ public class GlobalFilterConfig implements GlobalFilter {
                 return response.setComplete();
             }
         }
+
         return chain.filter(exchange);
     }
 

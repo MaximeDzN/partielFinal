@@ -32,6 +32,7 @@ spring:
         backend: secret
         profile-separator: '/'
         default-context: 'partielfinal'
+
 eureka:
   instance:
     hostname: ${HOSTNAME}
@@ -50,3 +51,4 @@ management:
 
 token:
   secret: hvs.fQCDPLZuAGIfuxGFb2xbxSaU
+

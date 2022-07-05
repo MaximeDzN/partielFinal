@@ -14,6 +14,25 @@ spring:
         backend: secret
         profile-separator: '/'
         default-context: 'partielfinal'
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          "[/**]":
+            allowedMethods: '*'
+            allowedOrigins: '*'
+            allowedHeaders: '*'
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-headers: '*'
+        allowed-origins: '*'
+        allowed-methods: '*'
+        allowed-origin-patterns: '*'
+
 server:
   port: '8099'
 token:

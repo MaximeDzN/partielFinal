@@ -31,7 +31,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public long countStudentsByCourse(long courseId) throws CourseNotFoundException{
-        Optional<Course> courseOptional =courseRepository.findById(courseId);
+        Optional<Course> courseOptional = courseRepository.findById(courseId);
+        System.out.println(courseOptional);
         return courseOptional.map(studentRepository::countStudentByCourses).
                 orElseThrow(() -> new CourseNotFoundException("Course with id : "+courseId+" not found"));
     }
