@@ -1,5 +1,6 @@
 package eu.ensup.school.integrationtest;
 
+import eu.ensup.school.SchoolApplicationTest;
 import eu.ensup.school.controller.CourseController;
 import eu.ensup.school.service.CourseServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -27,15 +28,21 @@ public class CourseControllerSIT
     private CourseServiceImpl courseService;
 
     @Test
-    public void errorRequest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/courses"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    public void countAll() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/all"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+    }
+
+    @Test
+    public void courseWithoutStudents() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/courseWithoutStudents"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
     public void associateSuccessful() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/courses/associate/1/1"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+                .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
     @Test
