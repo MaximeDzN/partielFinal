@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    vault:
+      uri: http://51.91.125.163:8200/
+      connection-timeout: 5000
+      read-timeout: 15000
+      token: hvs.fQCDPLZuAGIfuxGFb2xbxSaU
+      kv:
+        enabled: true
+        backend: secret
+        profile-separator: '/'
+        default-context: 'partielfinal'
+  config:
+    import: optional:configserver:http://localhost:8888
+
+

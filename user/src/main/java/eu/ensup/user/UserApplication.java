@@ -15,15 +15,6 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 public class UserApplication {
 
 
-
-    @Value("${token.secret}")
-    String key;
-
-
-    @Value("${server.port}")
-    String port;
-
-
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class, args);
     }
@@ -31,8 +22,6 @@ public class UserApplication {
     @Bean
     CommandLineRunner start(UserRepository userRepository, PasswordConfig passwordConfig, RepositoryRestConfiguration repositoryRestConfiguration){
         return args -> {
-            System.out.println(port);
-            System.out.println(key);
             repositoryRestConfiguration.exposeIdsFor(User.class);
             userRepository.save(User.builder().username("directeur").password(passwordConfig.passwordEncoder().encode("directeur")).role(Role.ROLE_DIRECTOR).build());
             userRepository.save(User.builder().username("responsable").password(passwordConfig.passwordEncoder().encode("responsable")).role(Role.ROLE_RESPONSABLE).build());
