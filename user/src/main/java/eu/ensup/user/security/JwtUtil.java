@@ -42,7 +42,6 @@ public class JwtUtil {
 
     public String generateToken(Authentication authentication){
         User user = (User)authentication.getPrincipal();
-        System.out.println(secret);
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withIssuedAt(new Date(System.currentTimeMillis()))

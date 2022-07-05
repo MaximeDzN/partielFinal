@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
+
 @CrossOrigin
 @RequestMapping("/courses")
 @RestController
 public class CourseController {
 
-    private CourseService courseService;
+    private final CourseService courseService;
 
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
@@ -25,7 +27,17 @@ public class CourseController {
         } catch (AssociationException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
 
+    //STATS
+    @GetMapping("/count/all")
+    public ResponseEntity<Long> countCourses(){
+        return new ResponseEntity<>(courseService.countCourses(),HttpStatus.OK);
+    }
+
+    @GetMapping("/count/courseWithoutStudents")
+    public ResponseEntity<Long> countCourseWithoutStudents(){
+        return new ResponseEntity<>(courseService.countCourseWithoutStudents(),HttpStatus.OK);
     }
 
 
