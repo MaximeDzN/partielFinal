@@ -14,12 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Student extends GenericEntity{
+public class Student {
 
-    public Student(Long id, Date createdAt, Date updatedAt, String firstName){
-        super(id,createdAt,updatedAt);
-        this.firstName = firstName;
-    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private Long id;
 
     String firstName;
     String lastName;
@@ -28,7 +29,6 @@ public class Student extends GenericEntity{
     String mail;
     String phoneNumber;
     String address;
-
     @ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
     List<Course> courses = new ArrayList<>();
 

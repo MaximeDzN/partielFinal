@@ -15,4 +15,4 @@ RUN chmod +x /wait
 
 
 EXPOSE 8084
-CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseContainerSupport", "-jar", "msSchool.jar"]
+CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseContainerSupport", "-jar","-Dspring.profiles.active=prod", "msSchool.jar"]
