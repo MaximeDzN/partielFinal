@@ -28,6 +28,4 @@ public class AuthController {
     public ResponseEntity<String> signin(@RequestBody SigninRequest signinRequest) {
         return new ResponseEntity<>(authService.signin(signinRequest), HttpStatus.OK);
     }
-
-
 }
