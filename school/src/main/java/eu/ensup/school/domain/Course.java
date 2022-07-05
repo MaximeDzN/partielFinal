@@ -23,11 +23,6 @@ public class Course {
     String theme;
     int hours;
 
-//    Course(Long id, Date createdAt, Date updatedAt,String theme, int hours){
-//        super(id,createdAt,updatedAt);
-//        this.theme = theme;
-//        this.hours = hours;
-//    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -36,6 +31,5 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> students = new ArrayList<>();
 
-    public <E> Course(long l, Date date, Date date1, String math, int i, ArrayList<E> es) {
-    }
+
 }

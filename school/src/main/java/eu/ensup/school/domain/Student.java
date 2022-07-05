@@ -16,14 +16,11 @@ import java.util.List;
 @ToString
 public class Student {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
-//    public Student(Long id, Date createdAt, Date updatedAt, String firstName){
-//        super(id,createdAt,updatedAt);
-//        this.firstName = firstName;
-//    }
 
     String firstName;
     String lastName;
@@ -32,7 +29,6 @@ public class Student {
     String mail;
     String phoneNumber;
     String address;
-
     @ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
     List<Course> courses = new ArrayList<>();
 
