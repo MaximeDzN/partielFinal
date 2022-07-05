@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/auth")
+@RequestMapping(value="/auth", consumes="application/json")
 public class AuthController {
 
     private final AuthService authService;
@@ -28,6 +28,4 @@ public class AuthController {
     public ResponseEntity<String> signin(@RequestBody SigninRequest signinRequest) {
         return new ResponseEntity<>(authService.signin(signinRequest), HttpStatus.OK);
     }
-
-
 }

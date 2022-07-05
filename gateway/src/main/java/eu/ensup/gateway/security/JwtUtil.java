@@ -18,7 +18,6 @@ public class JwtUtil {
     @Value(value = "${token.secret}")
     private String secret = "";
 
-
     public Map<String, Claim> getClaims(String token){
         return JWT.decode(token).getClaims();
     }
