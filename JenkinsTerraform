@@ -1,0 +1,100 @@
+pipeline {
+    agent any
+
+     environment {
+
+        vm_ip = ''
+        ssh_public_key = ""
+        ssh_private_key = ""
+
+        String branchName = "main"
+        String repoUrl = "https://github.com/MaximeDzN/partielFinal"
+
+        AWS     = credentials('AWS')
+        PERM    = credentials('PERM')
+        SSH    = credentials('SSH')
+        aws_access_key = credentials('access_key')
+        aws_secret_key = credentials('secret_key')
+    }
+
+    stages {
+        stage('Cleaning') {
+            steps {
+                script {
+                    if(fileExists("Ops/Terraform/.terraform")){
+                         dir("Ops/Terraform/.terraform") {
+                            sh "terraform destroy --auto-approve"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Checkout') {
+            steps {
+                script {
+                    sh("pwd")
+                    sh("ls -ahl")
+                    echo 'Cloning files from (branch: "' + branchName + '" )'
+                    echo 'Start cloning the github repository from (branch: "' + branchName + ' ") .....'
+                    // The below will clone your repo and will be checked out to master branch by default.
+                    git branch: branchName, url: repoUrl
+                    sh("ls -ahl")
+                    echo 'repository clone on branch master done.'
+                }
+            }
+        }
+        stage('Terraform ALL') {
+            steps {
+                script {
+                    dir("Ops/Terraform") {
+                        withCredentials([file(credentialsId: 'PRIVATE_KEY', variable: 'private_key'), file(credentialsId: 'PUBLIC_KEY', variable: 'public_key')]) {
+                            sh 'rm -rf .ter*'
+                            sh 'touch ./id_rsa.pub'
+                            sh 'chmod 777 ./id_rsa.pub'
+                            sh 'touch ./id_rsa'
+                            sh 'chmod 777 ./id_rsa'
+                            sh 'cp $public_key ./id_rsa.pub'
+                            sh 'cp $private_key ./id_rsa'
+                            sh 'chmod 400 ./id_rsa'
+                            sh 'chmod 400 ./id_rsa.pub'
+                            sh 'pwd'
+                        }
+                        ssh_private_key = sh(returnStdout: true, script: 'cat ./id_rsa').trim()
+                        ssh_public_key = sh(returnStdout: true, script: 'cat ./id_rsa.pub').trim()
+                        withCredentials([file(credentialsId: 'AWS', variable: 'awsfile')]) {
+                            sh 'cp $awsfile secret.ini'
+                            sh 'chmod 777 secret.ini'
+                        }
+                        sh """
+                            pwd
+                            ls
+                            """
+                        sh 'terraform init -lock=false'
+                        sh 'terraform plan -lock=false'
+                        sh 'terraform apply -lock=false --auto-approve'
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    post {
+    failure {
+        echo 'J\'aime le paté !'
+         dir("Ops/Terraform/") {
+                sh "terraform destroy --auto-approve"
+        }
+        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "", sendToIndividuals: true])
+    }
+    aborted {
+       dir("Ops/Terraform/") {
+            sh "terraform destroy --auto-approve"
+        }
+    }
+    success{
+       sh 'echo ouiiiii'
+    }
+}
+}
