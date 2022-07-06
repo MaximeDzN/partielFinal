@@ -32,8 +32,8 @@ public class UserSimulation extends Simulation {
     {
         setUp(
                 //permet de tester 10 utilisateur sur 10 sec
-                directeur.injectOpen(CoreDsl.rampUsers(10).during(10)),
-                directeur2.injectOpen(atOnceUsers(10))
+                directeur.injectOpen(CoreDsl.rampUsers(100).during(10)),
+                directeur2.injectOpen(atOnceUsers(100))
                 //permet de tester 10 utilisateur en meme temps
         ).protocols(httpProtocol);
     }
