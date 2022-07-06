@@ -23,8 +23,9 @@ public class SchoolApplication {
 	@Bean
 	CommandLineRunner start(CourseRepository courseRepository, StudentRepository studentRepository, SchoolRepository schoolRepository, RepositoryRestConfiguration repositoryRestConfiguration){
 		return args -> {
-			var faker = new Faker();
+			repositoryRestConfiguration.exposeIdsFor(Student.class);
 			repositoryRestConfiguration.exposeIdsFor(Course.class);
+			var faker = new Faker();
 			courseRepository.save(Course.builder().theme("Mathématique").hours(100).build());
 			courseRepository.save(Course.builder().theme("Informatique").hours(200).build());
 			courseRepository.save(Course.builder().theme("Droit").hours(25).build());
