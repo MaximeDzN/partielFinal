@@ -8,7 +8,9 @@ resource "null_resource" "ansible-provision" {
   provisioner "local-exec" {
     command = "echo \"${format("ansible_ssh_private_key_file=%s", var.private_key_path)}\" >>  ../Ansible/swarm-inventory"
   }
-
+  provisioner "local-exec" {
+    command = "echo \"${aws_instance.swarm-master.0.public_ip}\" >>  ../Ansible/ip_master"
+  }
   provisioner "local-exec" {
     command = "echo \"[swarm-master]\" > ../Ansible/swarm-inventory"
   }
