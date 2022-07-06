@@ -45,5 +45,3 @@ CREATE TABLE IF NOT EXISTS course_student(
 ALTER TABLE course_student ADD CONSTRAINT course_student_primary PRIMARY KEY (course_id,student_id);
 ALTER TABLE course_student ADD CONSTRAINT course_student_foreign_course FOREIGN KEY (course_id) REFERENCES course (id) ON DELETE CASCADE;
 ALTER TABLE course_student ADD CONSTRAINT course_student_foreign_student FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE;
-
-COMMIT;

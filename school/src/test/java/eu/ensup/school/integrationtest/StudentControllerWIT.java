@@ -1,6 +1,6 @@
 package eu.ensup.school.integrationtest;
 
-import eu.ensup.school.SchoolApplication;
+import eu.ensup.school.SchoolApplicationTest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
@@ -15,8 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = SchoolApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class StudentControllerWIT
+@SpringBootTest(classes = SchoolApplicationTest.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+class StudentControllerWIT
 {
     @LocalServerPort
     private int port;
