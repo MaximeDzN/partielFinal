@@ -1,6 +1,6 @@
 package eu.ensup.school.integrationtest;
 
-import eu.ensup.school.SchoolApplicationTest;
+import eu.ensup.school.SchoolApplication;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = SchoolApplicationTest.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = SchoolApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TeacherControllerWIT
 {
     @LocalServerPort
@@ -31,7 +31,7 @@ public class TeacherControllerWIT
 
     @Test
     @Order(1)
-    public void countAll()
+    void countAll()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/teachers/count/all", Long.class);

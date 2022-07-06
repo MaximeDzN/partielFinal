@@ -1,8 +1,8 @@
 package eu.ensup.school.integrationtest;
 
 import eu.ensup.school.SchoolApplicationTest;
-import eu.ensup.school.controller.StudentController;
-import eu.ensup.school.service.StudentServiceImpl;
+import eu.ensup.school.controller.CourseController;
+import eu.ensup.school.service.CourseServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +17,37 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(StudentController.class)
+@WebMvcTest(CourseController.class)
 @ContextConfiguration(classes = SchoolApplicationTest.class)
-class StudentControllerSIT
+class CourseControllerSITest
 {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private StudentServiceImpl studentService;
+    private CourseServiceImpl courseService;
 
     @Test
     void countAll() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/students/count/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/all"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
-    void studentWithoutCourse() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/students/count/studentWithoutCourse"))
+    void courseWithoutStudents() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/courseWithoutStudents"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
-    void studentsInCourse() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/students/count/studentsInCourse/1"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+    void associateSuccessful() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/courses/associate/1/1"))
+                .andExpect(MockMvcResultMatchers.status().isAccepted());
+    }
+
+    @Test
+    void associateSuccessfulTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/courses/associate/abc/1"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 }

@@ -1,8 +1,8 @@
 package eu.ensup.school.integrationtest;
 
 import eu.ensup.school.SchoolApplicationTest;
-import eu.ensup.school.controller.CourseController;
-import eu.ensup.school.service.CourseServiceImpl;
+import eu.ensup.school.controller.TeacherController;
+import eu.ensup.school.service.TeacherServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,37 +17,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(CourseController.class)
+@WebMvcTest(TeacherController.class)
 @ContextConfiguration(classes = SchoolApplicationTest.class)
-class CourseControllerSIT
+class TeacherControllerSITest
 {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CourseServiceImpl courseService;
+    private TeacherServiceImpl teacherService;
 
     @Test
     void countAll() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/teachers/count/all"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-    }
-
-    @Test
-    void courseWithoutStudents() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/courseWithoutStudents"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-    }
-
-    @Test
-    void associateSuccessful() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/courses/associate/1/1"))
-                .andExpect(MockMvcResultMatchers.status().isAccepted());
-    }
-
-    @Test
-    void associateSuccessfulTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/courses/associate/abc/1"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 }

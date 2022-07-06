@@ -1,6 +1,6 @@
 package eu.ensup.school.integrationtest;
 
-import eu.ensup.school.SchoolApplicationTest;
+import eu.ensup.school.SchoolApplication;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = SchoolApplicationTest.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = SchoolApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseControllerWIT
 {
     @LocalServerPort
@@ -31,7 +31,7 @@ public class CourseControllerWIT
 
     @Test
     @Order(1)
-    public void countAll()
+    void countAll()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/count/all", Long.class);
@@ -43,7 +43,7 @@ public class CourseControllerWIT
 
     @Test
     @Order(2)
-    public void associateStudentCourseSuccess()
+    void associateStudentCourseSuccess()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/associate/1/1", Long.class);
@@ -55,7 +55,7 @@ public class CourseControllerWIT
 
     @Test
     @Order(3)
-    public void associateStudentCourse()
+    void associateStudentCourse()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/associate/20/20", Long.class);
@@ -67,7 +67,7 @@ public class CourseControllerWIT
 
     @Test
     @Order(4)
-    public void countCourseWithoutStudents()
+    void countCourseWithoutStudents()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/count/courseWithoutStudents", Long.class);

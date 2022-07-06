@@ -13,10 +13,6 @@ INSERT INTO student (`firstName`, `lastName`, `birthDate`, `mail`, `phoneNumber`
 INSERT INTO teacher (`firstName`, `lastName`, `mail`, `phoneNumber`, `address`) VALUES
 ('firstName', 'lastName', 'mail', 'phoneNumber', 'address');
 
-//TRUNCATE TABLE school;
-INSERT INTO school (`name`, `mail`, `phoneNumber`, `address`, `directorId`) VALUES
-('name', 'mail', 'phoneNumber', 'address', 1);
-
 //TRUNCATE TABLE course_student;
 INSERT INTO course_student (`course_id`, `student_id`) VALUES
 (2, 1);
