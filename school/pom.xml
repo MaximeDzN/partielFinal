@@ -131,7 +131,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <reuseForks>false</reuseForks>
-					<skipTests>true</skipTests>
+					<skipTests>false</skipTests>
                 </configuration>
 				<executions>
 					<execution>
@@ -143,7 +143,7 @@
 						<configuration>
 							<skipTests>false</skipTests>
 							<includes>
-								<include>src/test/eu/ensup/school/repository/*.java</include>
+								<include>src/test/eu/ensup/school/service/*.java</include>
 							</includes>
 						</configuration>
 					</execution>

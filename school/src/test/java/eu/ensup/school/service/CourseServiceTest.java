@@ -3,6 +3,7 @@ package eu.ensup.school.service;
 import eu.ensup.school.domain.Course;
 import eu.ensup.school.domain.Student;
 import eu.ensup.school.exception.AssociationException;
+import eu.ensup.school.exception.CourseNotFoundException;
 import eu.ensup.school.repository.CourseRepository;
 import eu.ensup.school.repository.StudentRepository;
 import org.junit.jupiter.api.Assertions;
@@ -46,7 +47,29 @@ class CourseServiceTest {
         when(studentRepository.findById(studentId)).thenReturn(optionalStudent);
         when(courseRepository.findById(courseId)).thenReturn(optionalCourse);
         courseService.associateStudentCourse(studentId,courseId);
+        verify(courseRepository,times(1)).findById(courseId);
+        verify(studentRepository,times(1)).findById(studentId);
         verify(courseRepository,times(1)).save(optionalCourse.get());
+    }
+
+    @Test
+    @DisplayName("associateStudentCourse__exception")
+    void associateStudentCourse__exception()  {
+        Long studentId = 8L;
+        Long courseId = 1L;
+        Optional<Course> optionalCourse = Optional.of(Course.builder().id(studentId).theme("math").hours(150).students(new ArrayList<>()).build());
+        Optional<Student> optionalStudent = Optional.of(Student.builder().id(courseId).firstName("maxime").lastName("dazin").build());
+        Course expectedCourse = optionalCourse.get();
+        expectedCourse.getStudents().add(optionalStudent.get());
+        when(studentRepository.findById(studentId)).thenReturn(Optional.empty());
+        when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
+        try {
+            courseService.associateStudentCourse(studentId,courseId);
+        } catch (AssociationException e) {
+            assertEquals(e.getMessage(), "Could not associate student: 8 and course: 1");
+            verify(studentRepository,times(1)).findById(studentId);
+            verify(courseRepository,times(1)).findById(courseId);
+        }
     }
 
     @Test
