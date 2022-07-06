@@ -131,36 +131,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <reuseForks>false</reuseForks>
-					<skipTests>false</skipTests>
                 </configuration>
-				<executions>
-					<execution>
-						<id>unit-tests</id>
-						<phase>test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<skipTests>false</skipTests>
-							<includes>
-								<include>src/test/eu/ensup/school/service/*.java</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>integration-tests</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<skipTests>false</skipTests>
-							<includes>
-								<include>src/test/eu/ensup/school/integrationtest/*.java</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
             </plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
