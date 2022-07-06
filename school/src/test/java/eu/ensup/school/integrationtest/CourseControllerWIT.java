@@ -31,7 +31,7 @@ public class CourseControllerWIT
     }
 
     @Test
-    public void test()
+    void test()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/count/all", Long.class);

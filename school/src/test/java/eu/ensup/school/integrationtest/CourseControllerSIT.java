@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CourseController.class)
 @ContextConfiguration(classes = SchoolApplicationTest.class)
-public class CourseControllerSIT
+class CourseControllerSIT
 {
     @Autowired
     private MockMvc mockMvc;
@@ -28,25 +28,25 @@ public class CourseControllerSIT
     private CourseServiceImpl courseService;
 
     @Test
-    public void countAll() throws Exception {
+    void countAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/all"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
-    public void courseWithoutStudents() throws Exception {
+    void courseWithoutStudents() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/courses/count/courseWithoutStudents"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
-    public void associateSuccessful() throws Exception {
+    void associateSuccessful() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/courses/associate/1/1"))
                 .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
     @Test
-    public void associateSuccessfulTest() throws Exception {
+    void associateSuccessfulTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/courses/associate/abc/1"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }

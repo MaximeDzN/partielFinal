@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(StudentController.class)
 @ContextConfiguration(classes = SchoolApplicationTest.class)
-public class StudentControllerSIT
+class StudentControllerSIT
 {
     @Autowired
     private MockMvc mockMvc;
@@ -28,19 +28,19 @@ public class StudentControllerSIT
     private StudentServiceImpl studentService;
 
     @Test
-    public void countAll() throws Exception {
+    void countAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/students/count/all"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
-    public void studentWithoutCourse() throws Exception {
+    void studentWithoutCourse() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/students/count/studentWithoutCourse"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
-    public void studentsInCourse() throws Exception {
+    void studentsInCourse() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/students/count/studentsInCourse/1"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
