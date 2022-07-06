@@ -9,6 +9,8 @@ import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.Http;
 import io.gatling.javaapi.http.HttpDsl;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 import java.io.IOException;
@@ -23,7 +25,7 @@ import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
 
 public class SchoolSimulation extends Simulation {
 
-    String url = "http://18.216.190.197:8099";
+    String url = "http://localhost:9999";
 
     Map<String,String> values = new HashMap<String, String>() {{
         put("username", "directeur");
@@ -43,12 +45,15 @@ public class SchoolSimulation extends Simulation {
                     .setHeader("Content-type","application/json")
                     .build();
             HttpResponse<String> response = httpClient.send(request,HttpResponse.BodyHandlers.ofString());
-            token= token+response.body();
+            JSONObject jsonTk = new JSONObject(response.body());
+            token= token+ jsonTk.getString("token");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
             throw new RuntimeException(e);
         }
     }
