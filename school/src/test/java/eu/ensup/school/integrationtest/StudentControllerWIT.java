@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SchoolApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CourseControllerWIT
+public class StudentControllerWIT
 {
     @LocalServerPort
     private int port;
@@ -34,46 +34,34 @@ public class CourseControllerWIT
     void countAll()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
-        ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/count/all", Long.class);
+        ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/students/count/all", Long.class);
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
 
-        MatcherAssert.assertThat(response.getBody(), Matchers.equalTo(9L));
+        MatcherAssert.assertThat(response.getBody(), Matchers.equalTo(17L));
     }
 
     @Test
     @Order(2)
-    void associateStudentCourseSuccess()
+    void studentWithoutCourse()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
-        ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/associate/1/1", Long.class);
+        ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/students/count/studentWithoutCourse", Long.class);
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
 
-        MatcherAssert.assertThat(response.getStatusCode().is2xxSuccessful(), Matchers.equalTo(true));
+        MatcherAssert.assertThat(response.getBody(), Matchers.equalTo(16L));
     }
 
     @Test
     @Order(3)
-    void associateStudentCourse()
+    void studentsInCourse()
     {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
-        ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/associate/20/20", Long.class);
+        ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/students/count/studentsInCourse/1", Long.class);
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
 
-        MatcherAssert.assertThat(response.getStatusCode().is2xxSuccessful(), Matchers.equalTo(true));
-    }
-
-    @Test
-    @Order(4)
-    void countCourseWithoutStudents()
-    {
-        TestRestTemplate testRestTemplate = new TestRestTemplate();
-        ResponseEntity<Long> response = testRestTemplate.getForEntity(host+"/courses/count/courseWithoutStudents", Long.class);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
-
-        MatcherAssert.assertThat(response.getBody(), Matchers.equalTo(7L));
+        MatcherAssert.assertThat(response.getBody(), Matchers.equalTo(0L));
     }
 }

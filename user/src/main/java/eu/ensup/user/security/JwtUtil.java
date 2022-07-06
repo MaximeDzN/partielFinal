@@ -12,8 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Configuration
 @Slf4j
@@ -37,16 +40,21 @@ public class JwtUtil {
     }
 
     public String getUsernameFromJwt(String token){
-        return JWT.decode(token).getClaims().get("subject").asString();
+        return JWT.decode(token).getClaims().get("sub").asString();
     }
 
     public String generateToken(Authentication authentication){
         User user = (User)authentication.getPrincipal();
+        List<String> strings = new ArrayList<>();
+        for (GrantedAuthority grantedAuthority :user.getAuthorities()) {
+            strings.add(grantedAuthority.toString());
+        }
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis()+EXPIRATION_TIME))
-                .withClaim("roles", String.valueOf(user.getAuthorities()))
+                .withClaim("roles",String.join(",",strings))
+                .withClaim("id",user.getId())
                 .sign(Algorithm.HMAC256(secret));
 
     }

@@ -36,14 +36,14 @@ CREATE TABLE IF NOT EXISTS school(
   directorId REAL NULL
 );
 
-DROP TABLE IF EXISTS student_course CASCADE;
-CREATE TABLE IF NOT EXISTS student_course(
-  idStudent REAL NOT NULL,
-  idCourse REAL NOT NULL
+DROP TABLE IF EXISTS course_student CASCADE;
+CREATE TABLE IF NOT EXISTS course_student(
+  course_id REAL NOT NULL,
+  student_id REAL NOT NULL
 );
 
-ALTER TABLE student_course ADD CONSTRAINT student_course_primary PRIMARY KEY (idStudent,idCourse);
-ALTER TABLE student_course ADD CONSTRAINT student_course_foreign_student FOREIGN KEY (idStudent) REFERENCES student (id) ON DELETE CASCADE;
-ALTER TABLE student_course ADD CONSTRAINT student_course_foreign_course FOREIGN KEY (idCourse) REFERENCES course (id) ON DELETE CASCADE;
+ALTER TABLE course_student ADD CONSTRAINT course_student_primary PRIMARY KEY (course_id,student_id);
+ALTER TABLE course_student ADD CONSTRAINT course_student_foreign_course FOREIGN KEY (course_id) REFERENCES course (id) ON DELETE CASCADE;
+ALTER TABLE course_student ADD CONSTRAINT course_student_foreign_student FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE;
 
 COMMIT;

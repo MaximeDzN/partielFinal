@@ -3,8 +3,6 @@ package eu.ensup.gatling.simulation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.ensup.gatling.GatlingApplication;
-import eu.ensup.gatling.GatlingApplicationTests;
 import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.core.Simulation;
@@ -21,7 +19,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
 

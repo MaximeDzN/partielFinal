@@ -23,8 +23,9 @@ public class SchoolApplication {
 	@Bean
 	CommandLineRunner start(CourseRepository courseRepository, StudentRepository studentRepository, SchoolRepository schoolRepository, RepositoryRestConfiguration repositoryRestConfiguration){
 		return args -> {
-			Faker faker = new Faker();
+			repositoryRestConfiguration.exposeIdsFor(Student.class);
 			repositoryRestConfiguration.exposeIdsFor(Course.class);
+			var faker = new Faker();
 			courseRepository.save(Course.builder().theme("Mathématique").hours(100).build());
 			courseRepository.save(Course.builder().theme("Informatique").hours(200).build());
 			courseRepository.save(Course.builder().theme("Droit").hours(25).build());
@@ -38,7 +39,7 @@ public class SchoolApplication {
 					.phoneNumber("0606060606")
 					.directorId(1L)
 					.build());
-			for (int i = 0; i < 15; i++) {
+			for (var i = 0; i < 15; i++) {
 				String firstname = faker.name().firstName();
 				String lastName = faker.name().lastName();
 				studentRepository.save(Student.builder()

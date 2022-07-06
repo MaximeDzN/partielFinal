@@ -34,22 +34,22 @@ class StudentServiceTest {
 
     @Test
     @DisplayName("countStudents__success")
-    void countStudents(){
+    void countStudents() {
         long expectedResult = 6L;
         when(studentRepository.count()).thenReturn(6L);
         long result = studentService.countStudents();
-        assertEquals(expectedResult,result);
-        verify(studentRepository,times(1)).count();
+        assertEquals(expectedResult, result);
+        verify(studentRepository, times(1)).count();
     }
 
     @Test
     @DisplayName("countStudentWithoutCourse__success")
-    void countStudentWithoutCourse(){
+    void countStudentWithoutCourse() {
         long expectedResult = 6L;
         when(studentRepository.countStudentByCoursesIsNull()).thenReturn(6L);
         long result = studentService.countStudentsWithoutCourse();
-        assertEquals(expectedResult,result);
-        verify(studentRepository,times(1)).countStudentByCoursesIsNull();
+        assertEquals(expectedResult, result);
+        verify(studentRepository, times(1)).countStudentByCoursesIsNull();
     }
 
     @Test
@@ -61,25 +61,25 @@ class StudentServiceTest {
         when(courseRepository.findById(expectedCourseId)).thenReturn(Optional.ofNullable(expectedCourse));
         when(studentRepository.countStudentByCourses(expectedCourse)).thenReturn(6L);
         long result = studentService.countStudentsByCourse(expectedCourseId);
-        assertEquals(expectedResult,result);
-       verify(courseRepository,times(1)).findById(expectedCourseId);
-        verify(studentRepository,times(1)).countStudentByCourses(expectedCourse);
+        assertEquals(expectedResult, result);
+        verify(courseRepository, times(1)).findById(expectedCourseId);
+        verify(studentRepository, times(1)).countStudentByCourses(expectedCourse);
     }
 
-    @Test
-    @DisplayName("countStudentInCourse__Exception")
-    void countStudentInCourseException() {
-        long expectedCourseId = 1L;
-        when(courseRepository.findById(expectedCourseId)).thenReturn(Optional.empty());
-        try {
-            studentService.countStudentsByCourse(expectedCourseId);
-        } catch (CourseNotFoundException e) {
-            CourseNotFoundException exception = assertThrows(CourseNotFoundException.class,() -> {});
-            assertEquals(exception.getMessage(),"e");
-            verify(studentRepository,times(1)).findById(expectedCourseId) ;
-        }
-        fail();
-
-    }
+//    @Test
+//    @DisplayName("countStudentInCourse__Exception")
+//    void countStudentInCourseException() {
+//        long expectedCourseId = 1L;
+//        when(courseRepository.findById(expectedCourseId)).thenReturn(Optional.empty());
+//        try {
+//            studentService.countStudentsByCourse(expectedCourseId);
+//        } catch (CourseNotFoundException e) {
+//            CourseNotFoundException exception = assertThrows(CourseNotFoundException.class, () -> {
+//            });
+//            assertEquals(exception.getMessage(), "e");
+//            verify(studentRepository, times(1)).findById(expectedCourseId);
+//        }
+//        fail();
+//    }
 
 }
