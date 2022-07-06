@@ -3,13 +3,16 @@ package eu.ensup.gatling.simulation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.ensup.gatling.GatlingApplication;
+import eu.ensup.gatling.GatlingApplicationTests;
 import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.Http;
 import io.gatling.javaapi.http.HttpDsl;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,12 +21,17 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
 
 public class SchoolSimulation extends Simulation {
 
-    String url = "http://18.216.190.197:8099";
+
+    //Load properties file
+
+    String url = "http://"+System.getProperty("IpAdress")+":8099";
+//    String url = "http://18.216.190.197:8099";
 
     Map<String,String> values = new HashMap<String, String>() {{
         put("username", "directeur");
@@ -43,28 +51,31 @@ public class SchoolSimulation extends Simulation {
                     .setHeader("Content-type","application/json")
                     .build();
             HttpResponse<String> response = httpClient.send(request,HttpResponse.BodyHandlers.ofString());
-            token= token+response.body();
+            JSONObject jsonTk = new JSONObject(response.body());
+            token= token+ jsonTk.getString("token");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
     }
 
     ScenarioBuilder getAll_student_api =  CoreDsl.scenario("getall_students")
             .exec(HttpDsl.http("students_getall")
-                    .get("/school-service/students").header("Authorization",token)
+                    .get("/students").header("Authorization",token)
             ).pause(1);
 
     ScenarioBuilder getAll_courses_api =  CoreDsl.scenario("getall_courses")
             .exec(HttpDsl.http("courses_getall")
-                    .get("/school-service/courses").header("Authorization",token)
+                    .get("/courses").header("Authorization",token)
             ).pause(1);
 
     HttpProtocolBuilder httpProtocol = HttpDsl.http
-            .baseUrl(url)
+            .baseUrl(url+"/school-service")
             .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
             .acceptEncodingHeader("gzip, deflate")
             .acceptLanguageHeader("it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3")

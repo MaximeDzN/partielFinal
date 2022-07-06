@@ -11,6 +11,8 @@ import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
 public class UserSimulation extends Simulation {
 
 
+    String url = "http://"+System.getProperty("IpAdress")+":8099";
+
     ScenarioBuilder login_api =  CoreDsl.scenario("signin")
             .exec(HttpDsl.http("signin")
                     .post("/signin")
@@ -19,7 +21,7 @@ public class UserSimulation extends Simulation {
             ).pause(1);
 
     HttpProtocolBuilder httpProtocol = HttpDsl.http
-            .baseUrl("http://127.0.0.1:9999/user-service/auth")
+            .baseUrl(url+"/user-service/auth")
             .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
             .acceptEncodingHeader("gzip, deflate")
             .acceptLanguageHeader("it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3")
