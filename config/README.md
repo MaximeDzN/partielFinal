@@ -4,4 +4,4 @@
 [Lien](http://localhost:8888)
 
 ## Run
-`mvn spring-boot:run -Dspring-boot.run.profiles=dev`
+`mvn spring-boot:run`
