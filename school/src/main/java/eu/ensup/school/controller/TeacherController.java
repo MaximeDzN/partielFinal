@@ -1,6 +1,5 @@
 package eu.ensup.school.controller;
 
-import eu.ensup.school.service.StudentService;
 import eu.ensup.school.service.TeacherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -66,7 +66,7 @@ class CourseServiceTest {
         try {
             courseService.associateStudentCourse(studentId,courseId);
         } catch (AssociationException e) {
-            assertEquals(e.getMessage(), "Could not associate student: 8 and course: 1");
+            assertEquals("Could not associate student: 8 and course: 1",e.getMessage());
             verify(studentRepository,times(1)).findById(studentId);
             verify(courseRepository,times(1)).findById(courseId);
         }
